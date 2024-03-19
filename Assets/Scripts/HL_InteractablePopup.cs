@@ -24,7 +24,6 @@ public class HL_InteractableInfo : MonoBehaviour
     
     }
 
- 
     // Update is called once per frame
     void OnGUI()
     {
@@ -44,7 +43,7 @@ public class HL_InteractableInfo : MonoBehaviour
             {
                 Vector2 vecScreenPosition = Cam.WorldToScreenPoint(transform.position);
 
-                Rect rect_ = new Rect(vecScreenPosition.x, vecScreenPosition.y, vecInteractableTextSize.x, vecInteractableTextSize.y);
+                Rect rect_ = new Rect(vecScreenPosition.x, Screen.height - vecScreenPosition.y, vecInteractableTextSize.x, vecInteractableTextSize.y);
                 GUI.Label(rect_, InteractableText, DisplayTextStyle);
 
                 flCurrentPopupTime-=Time.deltaTime; 
