@@ -6,10 +6,19 @@ public class HL_Interactable : MonoBehaviour
 {
     public GameObject InteractionManagerGameObject = null;
     HL_InteractionManager InteractionManager = null;
+
+    public float PopupTime = 3.5f;
+    public float TriggerMagnitude = 3.0f;
+    public string InteractableText = "This is an interactable";
+
+    Vector2 vecInteractableTextSize;
+    GUIStyle DisplayTextStyle;
+
+    private float flCurrentPopupTime = 0.0f;
     public enum EInteractableType
     {
         INTERACTABLE_SIGN = 0,
-        INTERACTABLE_DIAMOND,
+        INTERACTABLE_PICKUP,
         INTERACTABLE_MAX
     }
 
@@ -19,17 +28,34 @@ public class HL_Interactable : MonoBehaviour
     {
         InteractionManager = InteractionManagerGameObject.GetComponent<HL_InteractionManager>();
         InteractionManager.PushInteractable(gameObject);
+        flCurrentPopupTime = PopupTime;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void HandleInteraction(Camera Cam,float flMagnitude)
     {
-        
-    }
+        if (DisplayTextStyle == null)
+        {
+            DisplayTextStyle = new GUIStyle(GUI.skin.label);
+            DisplayTextStyle.fontSize = 20;
+            DisplayTextStyle.alignment = TextAnchor.MiddleCenter;
+            GUIContent gUIContent = new GUIContent(InteractableText);
+            vecInteractableTextSize = DisplayTextStyle.CalcSize(gUIContent);
+        }
 
-    public void HandleInteraction(float flMagnitude)
-    {
-        Debug.Log("Trying to Interact with object : " + gameObject.name + " Type : " + InteractableType + " Magnitude : " + flMagnitude);
+        if (flMagnitude < TriggerMagnitude)
+        {
+            if (flCurrentPopupTime > 0.0f)
+            {
+                Vector2 vecScreenPosition = Cam.WorldToScreenPoint(transform.position);
+                Rect rect_ = new Rect(vecScreenPosition.x, Screen.height - vecScreenPosition.y, vecInteractableTextSize.x, vecInteractableTextSize.y);
+                GUI.Label(rect_, InteractableText, DisplayTextStyle);
+
+                flCurrentPopupTime -= Time.deltaTime;
+            }
+        }
+        else
+            flCurrentPopupTime = PopupTime;
+
 
     }
 }

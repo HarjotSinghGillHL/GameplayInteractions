@@ -5,6 +5,8 @@ using UnityEngine;
 public class HL_InteractionManager : MonoBehaviour
 {
     public GameObject Interactor;
+    public Camera InteractorCamera;
+
     public string InteractablesTag = "Interactable";
     public KeyCode InteractionKey = KeyCode.F;
 
@@ -26,7 +28,7 @@ public class HL_InteractionManager : MonoBehaviour
     {
         Interactables.Remove(GameObject);
     }
-    void Update()
+    void OnGUI()
     {
         if (Interactables != null && Interactables.Count > 0)
         {
@@ -52,10 +54,10 @@ public class HL_InteractionManager : MonoBehaviour
 
             if (ClosestObject)
             {
-                if (KeyState.CheckKeyState(InteractionKey, EKeyQueryMode.KEYQUERY_SINGLEPRESS))
-                {
-                    InteractableScript.HandleInteraction(flLastMagnitude);
-                }
+               // if (KeyState.CheckKeyState(InteractionKey, EKeyQueryMode.KEYQUERY_SINGLEPRESS))
+                //{
+                    InteractableScript.HandleInteraction(InteractorCamera, flLastMagnitude);
+              //  }
 
             }
         }

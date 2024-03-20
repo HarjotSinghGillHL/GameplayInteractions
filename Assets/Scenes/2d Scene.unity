@@ -443,7 +443,6 @@ GameObject:
   m_Component:
   - component: {fileID: 335386783}
   - component: {fileID: 335386785}
-  - component: {fileID: 335386784}
   - component: {fileID: 335386786}
   m_Layer: 0
   m_Name: Sign
@@ -461,29 +460,12 @@ Transform:
   m_GameObject: {fileID: 335386782}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.97, y: 0, z: 0}
+  m_LocalPosition: {x: 7.59, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 91466070}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &335386784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335386782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 278537ea6742097468d85be4eeb484ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Interactor: {fileID: 1401688527}
-  Cam: {fileID: 119455934}
-  PopupTime: 3
-  TriggerMagnitude: 3
-  InteractableText: This is an interactable
 --- !u!212 &335386785
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -549,6 +531,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InteractionManagerGameObject: {fileID: 2053556883}
+  PopupTime: 3.5
+  TriggerMagnitude: 3
+  InteractableText: This is a sign
   InteractableType: 0
 --- !u!1 &415484075
 GameObject:
@@ -22038,6 +22023,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InteractionManagerGameObject: {fileID: 2053556883}
+  PopupTime: 3.5
+  TriggerMagnitude: 3
+  InteractableText: This is a pickup
   InteractableType: 1
 --- !u!1 &942622714
 GameObject:
@@ -29560,7 +29548,6 @@ GameObject:
   - component: {fileID: 1401688530}
   - component: {fileID: 1401688531}
   - component: {fileID: 1401688529}
-  - component: {fileID: 1401688533}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -29675,18 +29662,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1401688533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1401688527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ee1f83581057f441a342547d10bc65c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!850595691 &1726260273
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -30020,6 +29995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Interactor: {fileID: 1401688527}
+  InteractorCamera: {fileID: 119455934}
   InteractablesTag: Interactable
   InteractionKey: 102
 --- !u!4 &2053556885
