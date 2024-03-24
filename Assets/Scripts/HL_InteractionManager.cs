@@ -10,6 +10,11 @@ public class HL_InteractionManager : MonoBehaviour
     public string InteractablesTag = "Interactable";
     public KeyCode InteractionKey = KeyCode.F;
 
+    string KeyText = "Interaction Key Is ";
+
+    GUIStyle DisplayTextStyle;
+    Vector2 vecInteractableTextSize;
+
     private HL_KeyState KeyState;
 
     private List<GameObject> Interactables;
@@ -30,6 +35,19 @@ public class HL_InteractionManager : MonoBehaviour
     }
     void OnGUI()
     {
+        if (DisplayTextStyle == null)
+        {
+            DisplayTextStyle = new GUIStyle(GUI.skin.label);
+            DisplayTextStyle.fontSize = 20;
+            DisplayTextStyle.alignment = TextAnchor.MiddleCenter;
+            KeyText = "Interaction Key Is " + InteractionKey;
+            GUIContent gUIContent = new GUIContent(KeyText);
+            vecInteractableTextSize = DisplayTextStyle.CalcSize(gUIContent);
+        }
+
+     //   Rect rect_ = new Rect(10, 10, vecInteractableTextSize.x, vecInteractableTextSize.y);
+    //    GUI.Label(rect_, KeyText, DisplayTextStyle);
+
         if (Interactables != null && Interactables.Count > 0)
         {
             GameObject ClosestObject = null;
@@ -54,10 +72,13 @@ public class HL_InteractionManager : MonoBehaviour
 
             if (ClosestObject)
             {
-               // if (KeyState.CheckKeyState(InteractionKey, EKeyQueryMode.KEYQUERY_SINGLEPRESS))
-                //{
-                    InteractableScript.HandleInteraction(InteractorCamera, flLastMagnitude);
-              //  }
+                InteractableScript.HandleInteraction(InteractorCamera, flLastMagnitude);
+
+                if (KeyState.CheckKeyState(InteractionKey, EKeyQueryMode.KEYQUERY_SINGLEPRESS))
+                {
+                    InteractableScript.OnInteractionKeyPress(InteractorCamera, flLastMagnitude);
+                }
+
 
             }
         }

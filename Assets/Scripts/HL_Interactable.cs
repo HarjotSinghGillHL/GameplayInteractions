@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static HL_Interactable;
 
 public class HL_Interactable : MonoBehaviour
 {
     public GameObject InteractionManagerGameObject = null;
     HL_InteractionManager InteractionManager = null;
+   
+    public HL_DialogueManager DialogueManager = null;
+    public List<string> Dialogues;
 
     public float PopupTime = 3.5f;
     public float TriggerMagnitude = 3.0f;
@@ -19,6 +23,7 @@ public class HL_Interactable : MonoBehaviour
     {
         INTERACTABLE_SIGN = 0,
         INTERACTABLE_PICKUP,
+        INTERACTABLE_DIALOGUE,
         INTERACTABLE_MAX
     }
 
@@ -30,7 +35,34 @@ public class HL_Interactable : MonoBehaviour
         InteractionManager.PushInteractable(gameObject);
         flCurrentPopupTime = PopupTime;
     }
-
+    public void OnInteractionKeyPress(Camera Cam, float flMagnitude)
+    {
+        if (flMagnitude < TriggerMagnitude)
+        {
+            switch (InteractableType)
+            {
+                case EInteractableType.INTERACTABLE_SIGN:
+                    {
+                        break;
+                    }
+                case EInteractableType.INTERACTABLE_PICKUP:
+                    {
+                        InteractionManager.RemoveInteractable(gameObject);
+                        GameObject.Destroy(gameObject);
+                        break;
+                    }
+                case EInteractableType.INTERACTABLE_DIALOGUE:
+                    {
+                        DialogueManager.PushDialogues(Dialogues);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+       }
+    }
     public void HandleInteraction(Camera Cam,float flMagnitude)
     {
         if (DisplayTextStyle == null)
