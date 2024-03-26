@@ -19,6 +19,7 @@ public class HL_DialogueManager : MonoBehaviour
     UnityEngine.UI.Text DialgoueText;
 
     List<string> CurrentDialogues;
+    int iDialogueIndex = 0;
     public void PushDialogues(List<string> Dialogues)
     {
         if (CurrentDialogues.Count == 0)
@@ -44,13 +45,16 @@ public class HL_DialogueManager : MonoBehaviour
     }
     public void OnNextDialogue()
     {
-        if (CurrentDialogues.Count > 0)
+        if (iDialogueIndex < CurrentDialogues.Count)
         {
-            DialgoueText.text =CurrentDialogues[0];
-            CurrentDialogues.RemoveAt(0);
+            DialgoueText.text =CurrentDialogues[iDialogueIndex];
+            iDialogueIndex += 1;
+           // CurrentDialogues.RemoveAt(0);
         }
         else
         {
+            iDialogueIndex = 0;
+            CurrentDialogues.Clear();
             DialogueCanvas.SetActive(false);
             LocalPlayerMovement.DisableMovement = false;
         }

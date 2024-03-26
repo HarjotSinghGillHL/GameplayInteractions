@@ -35,6 +35,8 @@ public class HL_Interactable : MonoBehaviour
         InteractionManager.PushInteractable(gameObject);
         flCurrentPopupTime = PopupTime;
     }
+
+    bool ShowSign = false;
     public void OnInteractionKeyPress(Camera Cam, float flMagnitude)
     {
         if (flMagnitude < TriggerMagnitude)
@@ -43,6 +45,9 @@ public class HL_Interactable : MonoBehaviour
             {
                 case EInteractableType.INTERACTABLE_SIGN:
                     {
+
+                        ShowSign = true;
+
                         break;
                     }
                 case EInteractableType.INTERACTABLE_PICKUP:
@@ -63,7 +68,7 @@ public class HL_Interactable : MonoBehaviour
             }
        }
     }
-    public void HandleInteraction(Camera Cam,float flMagnitude)
+    public void HandleInteraction(Camera Cam, float flMagnitude)
     {
         if (DisplayTextStyle == null)
         {
@@ -74,19 +79,41 @@ public class HL_Interactable : MonoBehaviour
             vecInteractableTextSize = DisplayTextStyle.CalcSize(gUIContent);
         }
 
-        if (flMagnitude < TriggerMagnitude)
+        if (InteractableType == EInteractableType.INTERACTABLE_SIGN)
         {
-            if (flCurrentPopupTime > 0.0f)
+            if (ShowSign)
             {
+                if (flMagnitude < TriggerMagnitude)
+                {
+                    if (flCurrentPopupTime > 0.0f)
+                    {
+                        Vector2 vecScreenPosition = Cam.WorldToScreenPoint(transform.position);
+                        Rect rect_ = new Rect(vecScreenPosition.x, Screen.height - vecScreenPosition.y, vecInteractableTextSize.x, vecInteractableTextSize.y);
+                        GUI.Label(rect_, InteractableText, DisplayTextStyle);
+
+                        flCurrentPopupTime -= Time.deltaTime;
+                    }
+                }
+                else
+                    flCurrentPopupTime = PopupTime;
+            }
+        }
+        else
+        {
+            if (flMagnitude < TriggerMagnitude)
+            {
+                // if (flCurrentPopupTime > 0.0f)
+                //{
                 Vector2 vecScreenPosition = Cam.WorldToScreenPoint(transform.position);
                 Rect rect_ = new Rect(vecScreenPosition.x, Screen.height - vecScreenPosition.y, vecInteractableTextSize.x, vecInteractableTextSize.y);
                 GUI.Label(rect_, InteractableText, DisplayTextStyle);
 
-                flCurrentPopupTime -= Time.deltaTime;
+                //   flCurrentPopupTime -= Time.deltaTime;
+                // }
             }
         }
-        else
-            flCurrentPopupTime = PopupTime;
+       // else
+           // flCurrentPopupTime = PopupTime;
 
 
     }
