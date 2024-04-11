@@ -20,6 +20,7 @@ public class HL_InteractionManager : MonoBehaviour
     private List<GameObject> Interactables;
     void Start()
     {
+
         KeyState = gameObject.GetComponent<HL_KeyState>();
     }
     public void PushInteractable(GameObject GameObject)

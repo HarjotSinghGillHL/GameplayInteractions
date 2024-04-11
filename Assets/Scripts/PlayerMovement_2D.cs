@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement_2D : MonoBehaviour
+public class HL_PlayerController : MonoBehaviour
 {   
     [Header("Input settings:")]
     public float speedMultiplier = 5.0f;
@@ -18,17 +18,20 @@ public class PlayerMovement_2D : MonoBehaviour
     public Animator animator;
 
     public bool DisableMovement = false;
-    
+    public bool ControllerActive = false;
+
+    public SpriteRenderer LocalPlayerSprite;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        ControllerActive = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (DisableMovement)
+        if (DisableMovement || !ControllerActive)
         {
             animator.SetFloat("Horizontal", 0);
             animator.SetFloat("Vertical",0);
@@ -42,7 +45,6 @@ public class PlayerMovement_2D : MonoBehaviour
         Move();
         Animate();
 
-        //Sets the idle to the last direction moved
         if (Input.GetAxis("Horizontal") >= 0.1f || Input.GetAxis("Horizontal") <= -0.1f || Input.GetAxis("Vertical") >= 0.1f || Input.GetAxis("Vertical") <= -0.1f)
         {
             animator.SetFloat("LastMoveX", Input.GetAxis("Horizontal"));
@@ -52,6 +54,11 @@ public class PlayerMovement_2D : MonoBehaviour
 
     }
 
+    public void SetLocalPlayerState(bool bActive)
+    {
+        ControllerActive = bActive;
+        LocalPlayerSprite.enabled = bActive;
+    }
     void Move()
     {
         rb.velocity = movementDirection * movementSpeed * speedMultiplier;

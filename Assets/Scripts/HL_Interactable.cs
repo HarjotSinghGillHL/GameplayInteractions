@@ -5,10 +5,11 @@ using static HL_Interactable;
 
 public class HL_Interactable : MonoBehaviour
 {
-    public GameObject InteractionManagerGameObject = null;
+    private GameObject InteractionManagerGameObject = null;
     HL_InteractionManager InteractionManager = null;
-   
-    public HL_DialogueManager DialogueManager = null;
+  
+    private GameObject DialogueManagerGameObject = null;
+    private HL_DialogueManager DialogueManager = null;
     public List<string> Dialogues;
 
     public float PopupTime = 3.5f;
@@ -31,7 +32,12 @@ public class HL_Interactable : MonoBehaviour
     
     void Start()
     {
+        InteractionManagerGameObject = GameObject.Find("InteractionManager");
         InteractionManager = InteractionManagerGameObject.GetComponent<HL_InteractionManager>();
+
+        DialogueManagerGameObject = GameObject.Find("DialogueManager");
+        DialogueManager = DialogueManagerGameObject.GetComponent<HL_DialogueManager>();
+
         InteractionManager.PushInteractable(gameObject);
         flCurrentPopupTime = PopupTime;
     }

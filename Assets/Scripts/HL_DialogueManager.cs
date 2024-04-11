@@ -14,15 +14,21 @@ public class HL_DialogueManager : MonoBehaviour
     public GameObject DialogueTextGameObject;
     public GameObject LocalPlayer;
 
-    PlayerMovement_2D LocalPlayerMovement;
+    public GameObject GameManagerObject;
+    HL_GameManager GameManger;
+
+    HL_PlayerController LocalPlayerMovement;
 
     UnityEngine.UI.Text DialgoueText;
 
     List<string> CurrentDialogues;
+
+    int iCurrentDialogue = 0;
     public void PushDialogues(List<string> Dialogues)
     {
         if (CurrentDialogues.Count == 0)
         {
+            GameManger.bOverrideCursor = true;
             LocalPlayerMovement.DisableMovement = true;
             LocalPlayerMovement.rb.velocity = Vector3.zero;
 
@@ -31,8 +37,10 @@ public class HL_DialogueManager : MonoBehaviour
             if (CurrentDialogues.Count > 0)
             {
                 DialogueCanvas.SetActive(true);
-                DialgoueText.text = CurrentDialogues[0];
-                CurrentDialogues.RemoveAt(0);
+                iCurrentDialogue = CurrentDialogues.Count;
+                DialgoueText.text = CurrentDialogues[CurrentDialogues.Count - iCurrentDialogue];
+                iCurrentDialogue -= 1;
+
             }
         }
     }
@@ -40,17 +48,20 @@ public class HL_DialogueManager : MonoBehaviour
     {
         CurrentDialogues = new List<string>();
         DialgoueText = DialogueTextGameObject.GetComponent<UnityEngine.UI.Text>();
-        LocalPlayerMovement = LocalPlayer.GetComponent<PlayerMovement_2D>();
+        GameManger = GameManagerObject.GetComponent<HL_GameManager>();
+        LocalPlayerMovement = LocalPlayer.GetComponent<HL_PlayerController>();
     }
     public void OnNextDialogue()
     {
-        if (CurrentDialogues.Count > 0)
+        if (iCurrentDialogue > 0)
         {
-            DialgoueText.text =CurrentDialogues[0];
-            CurrentDialogues.RemoveAt(0);
+            DialgoueText.text =CurrentDialogues[CurrentDialogues.Count - iCurrentDialogue ];
+            iCurrentDialogue -= 1;
         }
         else
         {
+            CurrentDialogues.Clear();
+            GameManger.bOverrideCursor = false;
             DialogueCanvas.SetActive(false);
             LocalPlayerMovement.DisableMovement = false;
         }
