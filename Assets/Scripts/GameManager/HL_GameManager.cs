@@ -81,7 +81,6 @@ public class HL_GameManager : MonoBehaviour
     }
     public void OnGameOver()
     {
-        SceneManager.LoadScene("EmptyScene");
         UpdateOverlay(EOverlays.OVERLAY_GAMEOVER);
     }
     public void OnLevelLoad()

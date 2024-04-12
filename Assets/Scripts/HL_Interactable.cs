@@ -44,6 +44,7 @@ public class HL_Interactable : MonoBehaviour
         INTERACTABLE_DIAMOND_PICKUP,
         INTERACTABLE_COIN_PICKUP,
         INTERACTABLE_DIALOGUE,
+        INTERACTABLE_LEVEL_KEY_PICKUP,
         INTERACTABLE_MAX
     }
 
@@ -61,6 +62,7 @@ public class HL_Interactable : MonoBehaviour
         TaskManager = TaskManagerGameObject.GetComponent<HL_TaskManager>();
 
         InteractionManager.PushInteractable(gameObject);
+
         flCurrentPopupTime = PopupTime;
 
         Interactor = InteractionManager.Interactor;
@@ -74,6 +76,7 @@ public class HL_Interactable : MonoBehaviour
             {
                 case EInteractableType.INTERACTABLE_SIGN:
                     {
+                        TaskManager.bReadSignBoard = true;
                         break;
                     }
                 case EInteractableType.INTERACTABLE_HEALTH_PICKUP:
@@ -107,6 +110,13 @@ public class HL_Interactable : MonoBehaviour
                 case EInteractableType.INTERACTABLE_COIN_PICKUP:
                     {
                         InteractorController.GainScore(200);
+                        InteractionManager.RemoveInteractable(gameObject);
+                        GameObject.Destroy(gameObject);
+                        break;
+                    }
+                case EInteractableType.INTERACTABLE_LEVEL_KEY_PICKUP:
+                    {
+                        TaskManager.bHasNextLevelKey = true;
                         InteractionManager.RemoveInteractable(gameObject);
                         GameObject.Destroy(gameObject);
                         break;
@@ -183,7 +193,7 @@ public class HL_Interactable : MonoBehaviour
 
         if (flMagnitude < TriggerMagnitude)
         {
-            if (flCurrentPopupTime > 0.0f)
+            if (flCurrentPopupTime > 0.0f ||InteractableType ==  EInteractableType.INTERACTABLE_SIGN)
             {
                 Vector2 vecScreenPosition = Cam.WorldToScreenPoint(transform.position);
                 Rect rect_ = new Rect(vecScreenPosition.x, Screen.height - vecScreenPosition.y, vecInteractableTextSize.x, vecInteractableTextSize.y);

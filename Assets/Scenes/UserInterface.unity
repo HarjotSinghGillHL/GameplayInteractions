@@ -663,6 +663,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LocalPlayer: {fileID: 7147849}
+  InteractionManagerGameObject: {fileID: 835300364}
+  GameManagerObject: {fileID: 2031997795}
 --- !u!1 &244703993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1639,10 +1641,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectiveText: {fileID: 1695246617}
+  LocalPlayer: {fileID: 7147849}
   bDiamondCollected: 0
   bCoinCollected: 0
   bHealed: 0
   bShieldGained: 0
+  bKeyCaptured: 0
+  bHasNextLevelKey: 0
   CurrentTask: 0
 --- !u!1 &956437297
 GameObject:

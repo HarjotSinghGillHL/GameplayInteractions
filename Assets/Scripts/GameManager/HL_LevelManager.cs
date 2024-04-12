@@ -7,9 +7,17 @@ public class HL_LevelManager : MonoBehaviour
 {
     public GameObject LocalPlayer;
     private HL_PlayerController LocalPlayerController;
+
+    public GameObject InteractionManagerGameObject;
+    private HL_InteractionManager InteractionManager;
+
+    public GameObject GameManagerObject;
+    private HL_GameManager GameManager;
     void Start()
     {
         LocalPlayerController = LocalPlayer.GetComponent<HL_PlayerController>();
+        InteractionManager = InteractionManagerGameObject.GetComponent<HL_InteractionManager>();
+        GameManager = GameManagerObject.GetComponent<HL_GameManager>();
     }
 
     public void OnGameplayLevelLoad(Scene scene, LoadSceneMode SceneMode)
@@ -23,7 +31,16 @@ public class HL_LevelManager : MonoBehaviour
     public void LoadSceneEx(string SceneName)
     {
 
-        if (SceneName.Contains("Gameplay_"))
+        InteractionManager.OnPreSceneLoad();
+
+        if (SceneName.Contains("GameEnd"))
+        {
+            // LocalPlayer.SetActive(false);
+            InteractionManager.bQueueForDeletion = true;
+            GameManager.OnGameOver();
+            Debug.Log("Gameplay_GameEnd");
+        }
+        else if (SceneName.Contains("Gameplay_"))
         {
             LocalPlayer.SetActive(true);
             SceneManager.sceneLoaded += OnGameplayLevelLoad;
