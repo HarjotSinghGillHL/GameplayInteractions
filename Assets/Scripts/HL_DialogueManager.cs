@@ -20,12 +20,15 @@ public class HL_DialogueManager : MonoBehaviour
     HL_PlayerController LocalPlayerMovement;
 
     UnityEngine.UI.Text DialgoueText;
+    public UnityEngine.UI.Text DialogueOwnerText;
 
     List<string> CurrentDialogues;
 
     int iCurrentDialogue = 0;
-    public void PushDialogues(List<string> Dialogues)
+    public void PushDialogues(List<string> Dialogues,string DialogueOwner)
     {
+        DialogueOwnerText.text = DialogueOwner;
+
         if (CurrentDialogues.Count == 0)
         {
             GameManger.bOverrideCursor = true;

@@ -1,9 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class HL_PlayerController : MonoBehaviour
-{   
+{
+    [Header("UI:")]
+    public UnityEngine.UI.Image HealthImage;
+    public UnityEngine.UI.Image ShieldImage;
+    public UnityEngine.UI.Text ScoreText;
+
     [Header("Input settings:")]
     public float speedMultiplier = 5.0f;
 
@@ -22,15 +28,24 @@ public class HL_PlayerController : MonoBehaviour
 
     public SpriteRenderer LocalPlayerSprite;
 
-    // Start is called before the first frame update
+    int iShield = 0;
+    int iHealth = 50;
+    int Score = 0;
+    public int CurrentTaskIndex = 0;
     void Start()
     {
+        UpdateHealthUI();
         ControllerActive = true;
     }
 
-    // Update is called once per frame
+    bool bDone = false;
     void Update()
     {
+        if (!bDone)
+        {
+            bDone = true;
+        }
+
         if (DisableMovement || !ControllerActive)
         {
             animator.SetFloat("Horizontal", 0);
@@ -54,6 +69,79 @@ public class HL_PlayerController : MonoBehaviour
 
     }
 
+    public void GainScore(int Gain)
+    {
+        Score += Gain;
+        ScoreText.text = "Score : " + Score;
+
+    }
+    public bool Heal(int iAmountOfHeal)
+    {
+        bool bReturn = iHealth < 100;
+
+        iHealth = (Mathf.Clamp(iHealth + iAmountOfHeal, 0, 100));
+        UpdateHealthUI();
+        return bReturn;
+    }
+
+    public bool GainShield(int iAmountOfShieldGain)
+    {
+        bool bReturn = iShield < 100;
+
+        iShield = (Mathf.Clamp(iShield + iAmountOfShieldGain, 0, 100));
+        UpdateHealthUI();
+        return bReturn;
+    }
+
+    public void UpdateHealthUI()
+    {
+        HealthImage.fillAmount = (float)iHealth / 100f;
+        ShieldImage.fillAmount = (float)iShield / 100f;
+    }
+    public bool Hurt(int iDamageDealt,bool bHitShield = true)
+    {
+        if (iDamageDealt <= 0)
+            return false;
+
+        int iNewHealth = iHealth;
+
+        if (iShield > 0 && bHitShield)
+        {
+            int iNewShield = iShield - iDamageDealt;
+
+            if (iNewShield < 0)
+            {
+                iNewHealth += iNewShield;
+                iNewShield = 0;
+            }
+
+            iShield = iNewShield;
+        }
+        else
+        {
+            iNewHealth = iHealth - iDamageDealt;
+        }
+
+        if (iNewHealth < 0)
+            iNewHealth = 0;
+
+        iHealth = iNewHealth;
+
+        UpdateHealthUI();
+
+        if (iNewHealth == 0)
+        {
+            OnDeath();
+            return true;
+        }
+
+        return false;
+    }
+
+    void OnDeath()
+    {
+
+    }
     public void SetLocalPlayerState(bool bActive)
     {
         ControllerActive = bActive;
