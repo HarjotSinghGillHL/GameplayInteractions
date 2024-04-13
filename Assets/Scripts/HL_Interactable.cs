@@ -193,6 +193,9 @@ public class HL_Interactable : MonoBehaviour
 
         if (flMagnitude < TriggerMagnitude)
         {
+            if (InteractableType == EInteractableType.INTERACTABLE_SIGN)
+                TaskManager.bReadSignBoard = true;
+
             if (flCurrentPopupTime > 0.0f ||InteractableType ==  EInteractableType.INTERACTABLE_SIGN)
             {
                 Vector2 vecScreenPosition = Cam.WorldToScreenPoint(transform.position);

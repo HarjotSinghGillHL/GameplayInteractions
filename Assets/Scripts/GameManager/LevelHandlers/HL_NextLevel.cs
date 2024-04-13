@@ -18,7 +18,9 @@ public class HL_NextLevel : MonoBehaviour
     {
         if (TaskManager.bHasNextLevelKey)
         {
-            GameManager.OnGameOver();
+            if ((SceneManager.GetActiveScene().buildIndex + 1) == 3)
+                GameManager.OnGameOver();
+
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }

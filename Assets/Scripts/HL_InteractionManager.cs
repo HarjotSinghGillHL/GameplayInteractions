@@ -68,14 +68,15 @@ public class HL_InteractionManager : MonoBehaviour
             GUIContent gUIContent = new GUIContent(KeyText);
             vecInteractableTextSize = DisplayTextStyle.CalcSize(gUIContent);
         }
-        Debug.Log("Count : " + bQueueForDeletion);
 
 
-      //  if (bQueueForDeletion)
-        // {
+    //  if (bQueueForDeletion)
+    // {
 
-         // return;
-        //}
+    // return;
+    //}
+
+    LABEL_LOOP_AGAIN:
 
         if (Interactables != null && Interactables.Count > 0)
         {
@@ -87,7 +88,11 @@ public class HL_InteractionManager : MonoBehaviour
             foreach (GameObject obj in Interactables)
             {
                 if (GameObjectExtensions.IsDestroyed(obj))
-                    Interactables.Clear();
+                {
+                    Interactables.Remove(obj);
+                    goto LABEL_LOOP_AGAIN;
+                }
+                  //  Interactables.Clear();
 
                 float flDistance = Mathf.Abs((obj.transform.position - Interactor.transform.position).magnitude);
 
@@ -115,8 +120,7 @@ public class HL_InteractionManager : MonoBehaviour
 
             }
         }
-        else 
-            Debug.Log("No Interactables");
+
 
     }
 }
